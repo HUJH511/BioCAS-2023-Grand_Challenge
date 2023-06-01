@@ -1,0 +1,1 @@
+2023-05-31 17:52:06,406:INFO:ResultsLogger:Training - Model: resnet18_mfcc64, Task: Task_11. Epoch: 5, Last train loss: 5.67, Best valid loss: 5.71 at epoch 3, Method: SupCon. Temperature: 0.10, Embedding size: linear512, Hop length: 128, Optimizer: SGD, Learning rate: 0.001, Dropout: 0.25 

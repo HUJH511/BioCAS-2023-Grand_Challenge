@@ -1,0 +1,17 @@
+{
+    "Name": "ResNet",
+    "Classes": 2,
+    "head": "linear",
+    "feat_dim": 512,
+    "fdim": 64,
+    "tdim": 93,
+    "feature": "mfcc",
+    "max_length": 3.0,
+    "parameters": [
+        {
+            "hop_length": 128,
+            "n_mfcc": 64,
+            "n_fft": 512
+        }
+    ]
+}
