@@ -139,7 +139,7 @@ def train_model(
         verbose: True to enable verbosity (default is True).
         plot_result: True to plot results (default is True).
         validation: True to run validation as well (default is True).
-        save_model: True to save checkpoint to temp folder (default is False).
+        save_model: True to save checkpoint to ckpts folder (default is False).
         model_name: the name of model to be trained (default is None).
     Returns:
         model: trained model.
@@ -239,7 +239,7 @@ def train_model(
         plt.draw()
 
     if save_ckpt:
-        PATH = "temp/{}_CheckPoint_task{}.pt".format(model_name, task)
+        PATH = "ckpts/{}_CheckPoint_task{}.pt".format(model_name, task)
         torch.save(best_dict, PATH)
 
     return best_dict

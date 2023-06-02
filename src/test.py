@@ -56,7 +56,7 @@ def test_model(device, task, dataloader, trained_model, verbose=False, spike=Fal
         print("Accuracy:", accuracy_score(truth_flat, preds_flat))
         print(classification_report(truth_flat, preds_flat))
 
-    score, SE, SP, AS, HS = calc_score(
+    score, *_ = calc_score(
         truth_flat, preds_flat, verbose, task=task
     )
 
