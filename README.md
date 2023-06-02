@@ -51,8 +51,16 @@ Step 1 - Following the structure as shown above, download the dataset into the c
 Step 2 - To install all the dependencies, it is recommended to create a new environment first. The `requirements.txt` is available in this directory for manual installation. 
 ```
 python -m venv BIOCAS23
-On Windows, run: BIOCAS23/Scripts/activate
-On macOS/Linux, run: source BIOCAS23/bin/activate
+```
+On Windows, run: 
+```
+BIOCAS23/Scripts/activate
+```
+On macOS/Linux, run: 
+```
+source BIOCAS23/bin/activate
+```
+```
 pip install -r requirements.txt
 ```
 Alternatively, a new environment can be created with the dependencies by using the `environment.yml`.
@@ -116,8 +124,8 @@ This project is licensed under the MIT License. See LICENSE for more details.
 - [x] Adjust different strategy for best model selection in training (JHU)
 - [x] Update tuning scripts with strategies (CLEOW)
 - [x] Train, test and save model checkpoints for pipeline design (CLEOW)
-- [ ] Supervised contrastive pre-training (JHU)
-- [ ] Prepare full pipeline for submission (CLEOW)
+- [x] Supervised contrastive pre-training (JHU)
+- [x] Prepare full pipeline for submission (CLEOW, JHU)
 - [ ] Experiment with ensemble/meta-learning approaches - e.g. locations (JHU, Shuailin)
 
 ## Acknowledgement
