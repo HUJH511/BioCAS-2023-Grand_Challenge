@@ -1,24 +1,13 @@
 from __future__ import print_function
 
 import os
-import sys
-import time
-import math
 import logging
 import argparse
 
 import torch
 import torch.nn as nn
 import torch.optim as optim
-import torch.backends.cudnn as cudnn
-import numpy as np
-import matplotlib.pyplot as plt
 import snntorch.functional as SF
-
-from torchvision import transforms
-from sklearn.metrics import confusion_matrix
-from sklearn.manifold import TSNE
-from sklearn.exceptions import UndefinedMetricWarning
 
 import src.models as mdl
 import src.data.dataset as ds
@@ -60,26 +49,21 @@ def setupLogger(name, logPath, level=logging.INFO):
     return logger
 
 
-# -------------------- Set_Args() functions --------------------# TODO (save_folder, ckpt,  model, head, ebd)
+# -------------------- Set_Args() functions --------------------# 
 def set_args(opt):
     # set the path according to the environment
+    # NEED MANUALLY CONFIG
     opt.ckpt = "best.pth"
-    opt.model = "resnet18"
-    opt.head = "linear"
-    opt.embedding_size = 512
-    task = "Task_" + opt.task
-    opt.model_path = "./temp/PreTrain-Models/{}".format(task)
-    opt.model_file = "{}_{}{}_{}{}_hop{}_SGD_lr0.001_temp0.1_drop0.25_val{}".format(
-        opt.model, 
+    task_in = "Task_" + opt.task
+    task_path = "./ckpts/PreTrain-Models/{}".format(task_in)
+    model_name = "resnet18_{}{}_linear512_hop{}_SGD_lr0.001_temp0.1_drop0.25_val{}".format(
         FEATURE, 
         N_F_BIN, 
-        opt.head,
-        opt.embedding_size, 
         HOP_LENGTH,
-        opt.val_partition,
+        opt.val_percent,
     )
-    opt.save_folder = os.path.join(opt.model_path, opt.model_file)
-    if not os.path.isdir(opt.save_folder):
+    opt.model_path = os.path.join(task_path, model_name)
+    if not os.path.isdir(opt.model_path):
         raise Exception("Wrong PreTrain Model")
 
     return opt
@@ -88,6 +72,8 @@ def set_args(opt):
 # -------------------- Set_Loader() function definition --------------------#
 def set_loader(opt):
     task_in = "Task_" + opt.task
+    main_task = int(task_in[-2])
+    sub_task = int(task_in[-1])
     data_path = opt.data_path
 
     data_dict={
@@ -105,8 +91,6 @@ def set_loader(opt):
         ],
     }
 
-    main_task = int(task_in[-2])
-    sub_task = int(task_in[-1])
     trainDataset, intra_testDataset, inter_testDataset = ds.genDatasets(
         task=main_task, 
         data_dict=data_dict,
@@ -123,7 +107,7 @@ def set_loader(opt):
     dataloader = dl.trainValLoader(
         trainDataset,
         sub_task,
-        valid_size=opt.val_partition,
+        valid_size=opt.val_percent,
         batch_size=opt.batch_size,
         collate_fn=lambda batch: dl.custom_collate(
             batch, MAX_LENGTH_SAMPLES, task_in, sub_task
@@ -211,16 +195,16 @@ def main(args):
     logger = setupLogger("ResultsLogger", log_path)
     task_in = "Task_" + args.task
     main_task = int(task_in[-2])
-    sub_task = int(task_in[-1])
 
     dataloader, intra_testloader, inter_testloader = set_loader(args)
 
     num_classes = len(dl.classes[task_in])
 
     if mode == "train":
+        ### Start of model and task customization >>>>>
         lr = args.learning_rate
         epoch_num = args.epoch
-        model_name = args.model_name
+        model_name = args.model
         PRS_classifier, loss_fn, spike = get_model(args, model_name, num_classes)
         optimizer = optim.Adam(
             filter(lambda p: p.requires_grad, PRS_classifier.parameters()), 
@@ -280,16 +264,16 @@ def main(args):
             logger.info(log_msg)
         ### End of evaluation and logging results <<<<<
         if args.save_model:
-            PATH = "temp/FineTune-Models/{}_{}.pt".format(model_name, task_in)
+            PATH = "ckpts/FineTune-Models/{}_{}.pt".format(model_name, task_in)
             torch.save(best_dict, PATH)
             
     else:
         print("\nTesting...")
-        model_name = args.model_name
+        model_name = args.model
         strategy = args.strategy
 
         PRS_classifier, _, spike = get_model(args, model_name, num_classes)
-        PATH = "temp/FineTune-Models/{}_{}.pt".format(model_name, task_in)
+        PATH = "ckpts/FineTune-Models/{}_{}.pt".format(model_name, task_in)
         CheckPoint = torch.load(PATH)
         PRS_classifier.load_state_dict(CheckPoint[strategy]["model_state_dict"])
         PRS_classifier.eval()
@@ -324,7 +308,11 @@ def main(args):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     #   Add parser arguments below >>>>>
+ 
+    # Mode Config
+    parser.add_argument("--mode", type=str, default="train", help="Train or test mode.")
 
+    # Dataset Config
     parser.add_argument(
         "--task",
         type=str,
@@ -332,32 +320,38 @@ if __name__ == "__main__":
         help="Task for script run - 11(default).",
     )
     parser.add_argument(
-        "--log_path",
-        type=str,
-        default="logs/sample_main.logs",
-        help="Path of file to save logs.",
-    )
-    parser.add_argument(
         "--data_path", type=str, default="SPRSound/", help="Directory for data."
     )
     parser.add_argument(
-        "--val_partition",
-        type=float,
-        default=0.2,
-        help="Fraction of dataset for validation (0-1)",
+        "--log_path",
+        type=str,
+        default="logs/finetune.logs",
+        help="Path of file to save logs.",
     )
-    parser.add_argument("--mode", type=str, default="train", help="Train or test mode.")
     parser.add_argument(
         "--batch_size", type=int, default=32, help="Batch size for dataloaders."
     )
     parser.add_argument(
+        "--val_percent",
+        type=float,
+        default=0.2,
+        help="Fraction of dataset for validation (0-1)",
+    )
+    
+    # Model Config
+    parser.add_argument(
+        "--model", type=str, default="SupCon", help="Type of the model chosen."
+    )
+    parser.add_argument("--save_model", action=argparse.BooleanOptionalAction)
+
+    # Train Config
+    parser.add_argument(
+        "--epoch", type=int, default=20, help="Epoch number."
+    )
+
+    # Optim Config
+    parser.add_argument(
         "--learning_rate", type=float, default=0.001, help="Learning rate."
-    )
-    parser.add_argument(
-        "--epoch", type=int, default=2, help="State the number of epochs for training."
-    )
-    parser.add_argument(
-        "--model_name", type=str, default="SupCon", help="Name of the model chosen."
     )
     parser.add_argument(
         "--strategy",
@@ -365,7 +359,7 @@ if __name__ == "__main__":
         default="score",
         help="Choose strategy to do evaluation.",
     )
-    parser.add_argument("--save_model", action=argparse.BooleanOptionalAction)
+    
     #   End of parser arguments <<<<<
     args = set_args(parser.parse_args())
     print(args)

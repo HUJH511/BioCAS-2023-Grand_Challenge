@@ -24,18 +24,18 @@ MODELS_PATH = {
 def get_model(config, device):
     model_name = config["Name"]
     num_classes = config["Classes"]
-    input_fdim = config["fdim"]
-    input_tdim = config["tdim"]
     if "CNN" in model_name:
-        classifier = modelzoo.leanCNN(
-            num_class=num_classes, input_fdim=input_fdim, input_tdim=input_tdim
+        classifier = modelzoo.leanCNN( 
+            input_fdim=config["fdim"], 
+            input_tdim=config["tdim"],
+            num_class=num_classes,
         ).to(device)
     elif "ResNet" in model_name:
         classifier = modelzoo.PRS_Model(
             model="resnet18",
             head=config["head"],
             embedding_size=config["feat_dim"],
-            num_classes=config["Classes"],
+            num_classes=num_classes,
         ).to(device)
     else:
         print("Error in processing")
@@ -49,21 +49,24 @@ def write_json(content, json_path):
 
 
 def main(args):
-    task_in = args.task
-    task_in = "Task_" + task_in
+    task_in = "Task_" + args.task
     data_path = args.wav
     output_path = args.out
+
     dir_path = MODELS_PATH[task_in]
     model_checkpoint = os.path.join(dir_path, "model.pt")
     checkpoint_loader = torch.load(model_checkpoint)
     model_state = checkpoint_loader["model_state_dict"]
+
     config_file = os.path.join(dir_path, "config.json")
     with open(config_file, "r") as j:
         config = json.loads(j.read())
     device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
+
     model = get_model(config, device)
     model.load_state_dict(model_state)
     model.eval()
+
     output_log = {}
     with torch.no_grad():
         for filename in listdir(data_path):
@@ -82,6 +85,7 @@ def main(args):
             classification = torch.argmax(raw_out).item()
             classification = dl.idx2label(classification, task_in)
             output_log[filename] = classification
+            
     write_json(output_log, output_path)
     return
 

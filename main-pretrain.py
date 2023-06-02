@@ -69,7 +69,7 @@ def set_args(opt):
             opt.warmup_to = opt.learning_rate
 
     # set the path according to the environment
-    opt.model_path = "./temp/PreTrain-Models/{}".format(opt.task_in)
+    opt.model_path = "./ckpts/PreTrain-Models/{}".format(opt.task)
     opt.model_name = "{}_{}{}_{}{}_hop{}_{}_lr{}_temp{}_drop{}_val{}".format(
         opt.model, 
         FEATURE, 
@@ -92,7 +92,7 @@ def set_args(opt):
 
 # -------------------- Set_Loader() function definition --------------------#
 def set_loader(opt):
-    task_in = opt.task_in
+    task_in = opt.task
     data_path = opt.data_path
 
     data_dict={
@@ -215,7 +215,7 @@ def main(opt):
 
     # log results
     log_msg = (
-        f"Training - Model: {opt.model}_{FEATURE}{N_F_BIN}, Task: {opt.task_in}. Epoch: {opt.epochs}, "
+        f"Training - Model: {opt.model}_{FEATURE}{N_F_BIN}, Task: {opt.task}. Epoch: {opt.epochs}, "
         f"Last train loss: {train_loss:>0.2f}, "
         f"Best valid loss: {1/best_loss:>0.2f} at epoch {best_epoch}, "
         f"Method: {opt.method}. Temperature: {opt.temperature:>0.2f}, "
@@ -231,17 +231,10 @@ def main(opt):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     #   Add parser arguments below >>>>>
-    # Mode Config
-    parser.add_argument(
-        "--ckpt", 
-        type=str, 
-        default="best.pth", 
-        help="model to be evaluated"
-    )
 
     # Dataset Config
     parser.add_argument(
-        "--task_in",
+        "--task",
         type=str,
         default="Task_11",
         help="Task for script run - Task_11(default).",
@@ -252,7 +245,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--log_path",
         type=str,
-        default="logs/SupCon.logs",
+        default="logs/pretrain.logs",
         help="Path of file to save logs.",
     )
     parser.add_argument(
