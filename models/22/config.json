@@ -2,7 +2,7 @@
     "Name": "ResNet",
     "Classes": 5,
     "head": "linear",
-    "feat_dim": 128,
+    "feat_dim": 512,
     "fdim": 64,
     "tdim": 93,
     "feature": "mfcc",
