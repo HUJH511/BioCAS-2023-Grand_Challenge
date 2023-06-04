@@ -15,13 +15,15 @@ This repository contains code for respiratory sound classification in BioCAS 202
 ```
 ./BioCAS2023/
 |
+├───ckpts
+│   ├───PreTrain-Models
+│   └───FineTune-Models
 ├───logs
 ├───models
 │   ├───11
 │   ├───12
 │   ├───21
-│   ├───22
-├───pretrained_models
+│   └───22
 ├───SPRSound
 │   ├───example
 │   ├───test_json
@@ -34,14 +36,22 @@ This repository contains code for respiratory sound classification in BioCAS 202
 │   ├───data
 │   ├───models
 │   ├───utils
+│   ├───train.py
+│   └───test.py
 ├───.gitignore
+├───backtest.ipynb
+├───BioCAS-Notes.ipynb
 ├───environment.yml
-├───hyperTune.py
+├───LICENSE
+├───main-finetune.py
+├───main-pretrain.py
 ├───main.py
-├───preTune.py
 ├───README.md
 ├───requirements.txt
-├───supCon.py
+├───Submission Documentation.pdf
+├───tuning-hyperparameter.py
+├───tuning-preprocessing.py
+└───tuning-supcon.ipynb
 ```
 
 ##  Execution
@@ -91,6 +101,7 @@ For other models such as convolutional neural network, ResNet, or AST:
 ```
 python sample_main.py --task=Task_11 --epoch=20 --model_name=ResNet --save_model
 ```
+TODO: \
 Models and their states will be stored in `\temp\` folder. To use them for main, users will have to move the checkpoints to the respective folders (based on tasks) under `\models\` and rename as `model.pt`. Users will have to ensure that the models trained is aligned to the `config.json` within the `\models\` sub-directories, and can be modified accordingly.
 
 
@@ -102,8 +113,8 @@ The models and preprocessing can be edited accordingly in their source code both
 3. Run `mprof plot` to plot the memory used with time.
 
 ### Tuning Hyperparameters using Tune
-Model hyperparameters can be tuned using `python hyperTune.py` with their arguments stated within the source file.\
-Similarly, preprocessing parameters can be tuned using `python preTune.py`.
+Model hyperparameters can be tuned using `python tuning-hyperparameter.py` with their arguments stated within the source file.\
+Similarly, preprocessing parameters can be tuned using `python tuning-preprocessing.py`.
 
 ## Architecture
 TODO
@@ -129,10 +140,9 @@ This project is licensed under the MIT License. See LICENSE for more details.
 - [ ] Experiment with ensemble/meta-learning approaches - e.g. locations (JHU, Shuailin)
 
 ## Acknowledgement
-Authors: Hu Jinhai*, Leow Cong Sheng*, Tao Shualin\
+Authors: Hu Jinhai*, Leow Cong Sheng*, Tao Shuailin\
 This project have been built on some of the useful repositories and tools shown below (in no particular order):
 - Previous year challenge submission - https://github.com/chenzizhao/biocas-challenge-22
-- Audio Spectrogram Transformer (AST) - https://github.com/YuanGongND/ast
 - SupContrast: Supervised Contrastive Learning - https://github.com/HobbitLong/SupContrast
 - snnTorch - https://snntorch.readthedocs.io/en/latest/
 - Ray Tune - https://docs.ray.io/en/master/ 
