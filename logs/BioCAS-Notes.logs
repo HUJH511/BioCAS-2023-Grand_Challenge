@@ -1,7 +1,58 @@
+CNN Trial
 2023-06-02 18:30:54,981:INFO:ResultsLogger:FineTune - Model: CNN_mfcc, Task: Task_11. Epoch: 100, Strategy: score, TestScore: 0.85 at epoch 89, ValScore: 0.90, ValAccuracy: 0.90, ValLoss: 11.38, IntraScore: 0.85, InterScore: 0.86 
 2023-06-02 18:31:07,321:INFO:ResultsLogger:FineTune - Model: CNN_mfcc, Task: Task_11. Epoch: 100, Strategy: accuracy, TestScore: 0.85 at epoch 89, ValScore: 0.90, ValAccuracy: 0.90, ValLoss: 11.38, IntraScore: 0.87, InterScore: 0.84 
 2023-06-02 18:31:19,635:INFO:ResultsLogger:FineTune - Model: CNN_mfcc, Task: Task_11. Epoch: 100, Strategy: loss, TestScore: 0.85 at epoch 100, ValScore: 0.89, ValAccuracy: 0.89, ValLoss: 11.03, IntraScore: 0.86, InterScore: 0.84 
+V2 Test
 2023-06-02 23:45:26,912:INFO:ResultsLogger:Testing - Model: resnet18_mfcc, Task: Task_11, Train Score: 0.98, Valid Score: 0.98, Intra Score: 0.98, Inter Score: 0.98 at resnet18_mfcc64_linear512_hop128_SGD_lr0.001_temp0.1_drop0.25_val0.2/ckpt_epoch_200.pth 
 2023-06-02 23:49:04,379:INFO:ResultsLogger:Testing - Model: resnet18_mfcc, Task: Task_12, Train Score: 0.96, Valid Score: 0.93, Intra Score: 0.97, Inter Score: 0.97 at resnet18_mfcc64_linear512_hop128_SGD_lr0.001_temp0.1_drop0.25_val0.2/ckpt_epoch_200.pth 
 2023-06-03 11:58:28,210:INFO:ResultsLogger:Testing - Model: resnet18_mfcc, Task: Task_21, Train Score: 0.88, Valid Score: 0.90, Intra Score: 0.88, Inter Score: 0.88 at resnet18_mfcc64_linear512_hop128_SGD_lr0.001_temp0.35_drop0.25_val0.2/ckpt_epoch_200.pth 
 2023-06-03 12:00:48,291:INFO:ResultsLogger:Testing - Model: resnet18_mfcc, Task: Task_22, Train Score: 0.84, Valid Score: 0.79, Intra Score: 0.74, Inter Score: 0.78 at resnet18_mfcc64_linear512_hop128_SGD_lr0.001_temp0.35_drop0.25_val0.2/ckpt_epoch_200.pth 
+Sliding Window Trial
+2023-06-05 15:55:29,520:INFO:ResultsLogger:PreTrain - Model: resnet18_mfcc64, Task: Task_12. Epoch: 100, Last train loss: 3.16, Best valid loss: 5.23 at epoch 9, Method: SupCon. Temperature: 0.10, Embedding size: linear512, Hop length: 128, Optimizer: SGD, Learning rate: 0.001, Dropout: 0.25 
+2023-06-05 16:16:40,799:INFO:ResultsLogger:FineTune - Model: SupCon_mfcc, Task: Task_12. Epoch: 20, Strategy: score, TestScore: 0.71 at epoch 6, ValScore: 0.92, ValAccuracy: 0.88, ValLoss: 19.74, IntraScore: 0.71, InterScore: 0.71 
+2023-06-05 16:16:56,953:INFO:ResultsLogger:FineTune - Model: SupCon_mfcc, Task: Task_12. Epoch: 20, Strategy: accuracy, TestScore: 0.71 at epoch 6, ValScore: 0.92, ValAccuracy: 0.88, ValLoss: 19.74, IntraScore: 0.70, InterScore: 0.71 
+2023-06-05 16:17:11,604:INFO:ResultsLogger:FineTune - Model: SupCon_mfcc, Task: Task_12. Epoch: 20, Strategy: loss, TestScore: 0.71 at epoch 14, ValScore: 0.92, ValAccuracy: 0.88, ValLoss: 15.16, IntraScore: 0.71, InterScore: 0.70 
+2023-06-05 16:18:16,281:INFO:ResultsLogger:Testing - Model: resnet18_mfcc, Task: Task_12, Train Score: 0.94, Valid Score: 0.92, Intra Score: 0.70, Inter Score: 0.72 at resnet18_mfcc64_linear512_hop128_SGD_lr0.001_temp0.1_drop0.25_val0.2/ckpt_epoch_100.pth 
+V3 Test (old)
+2023-06-05 21:23:16,412:INFO:ResultsLogger:Testing - Model: resnet18_mfcc, Task: Task_11, Train Score: 0.98, Valid Score: 0.98, Intra Score: 0.98, Inter Score: 0.98 at resnet18_mfcc64_linear512_hop128_SGD_lr0.001_temp0.1_drop0.25_val0.2/ckpt_epoch_100.pth 
+2023-06-05 21:25:46,036:INFO:ResultsLogger:Testing - Model: resnet18_mfcc, Task: Task_12, Train Score: 0.96, Valid Score: 0.96, Intra Score: 0.96, Inter Score: 0.97 at resnet18_mfcc64_linear512_hop128_SGD_lr0.001_temp0.1_drop0.25_val0.2/ckpt_epoch_100.pth 
+2023-06-05 21:31:45,897:INFO:ResultsLogger:Testing - Model: resnet18_mfcc, Task: Task_21, Train Score: 0.94, Valid Score: 0.94, Intra Score: 0.94, Inter Score: 0.94 at resnet18_mfcc64_linear512_hop128_SGD_lr0.001_temp0.35_drop0.25_val0.2/ckpt_epoch_100.pth 
+2023-06-05 21:33:31,065:INFO:ResultsLogger:Testing - Model: resnet18_mfcc, Task: Task_22, Train Score: 0.92, Valid Score: 0.94, Intra Score: 0.88, Inter Score: 0.91 at resnet18_mfcc64_linear512_hop128_SGD_lr0.001_temp0.35_drop0.25_val0.2/ckpt_epoch_100.pth 
+V4 Train less
+2023-06-05 23:16:32,150:INFO:ResultsLogger:PreTrain - Model: resnet18_mfcc64, Task: Task_11. Epoch: 100, Last train loss: 4.99, Best valid loss: 5.46 at epoch 30, Method: SupCon. Temperature: 0.10, Embedding size: linear512, Hop length: 128, Optimizer: SGD, Learning rate: 0.001, Dropout: 0.25 
+2023-06-06 00:00:32,958:INFO:ResultsLogger:FineTune - Model: SupCon_mfcc, Task: Task_11. Epoch: 20, Strategy: score, TestScore: 0.89 at epoch 2, ValScore: 1.00, ValAccuracy: 1.00, ValLoss: 2.44, IntraScore: 0.88, InterScore: 0.90 
+2023-06-06 00:00:45,469:INFO:ResultsLogger:FineTune - Model: SupCon_mfcc, Task: Task_11. Epoch: 20, Strategy: accuracy, TestScore: 0.90 at epoch 2, ValScore: 1.00, ValAccuracy: 1.00, ValLoss: 2.44, IntraScore: 0.88, InterScore: 0.91 
+22023-06-06 00:00:58,054:INFO:ResultsLogger:FineTune - Model: SupCon_mfcc, Task: Task_11. Epoch: 20, Strategy: loss, TestScore: 0.89 at epoch 13, ValScore: 0.99, ValAccuracy: 0.99, ValLoss: 0.33, IntraScore: 0.87, InterScore: 0.91 
+2023-06-06 00:03:05,552:INFO:ResultsLogger:Testing - Model: resnet18_mfcc, Task: Task_11, Train Score: 1.00, Valid Score: 1.00, Intra Score: 0.88, Inter Score: 0.91 at resnet18_mfcc64_linear512_hop128_SGD_lr0.001_temp0.1_drop0.25_val0.2/best.pth 
+
+2023-06-06 01:34:36,885:INFO:ResultsLogger:PreTrain - Model: resnet18_mfcc64, Task: Task_12. Epoch: 100, Last train loss: 3.18, Best valid loss: 5.09 at epoch 5, Method: SupCon. Temperature: 0.10, Embedding size: linear512, Hop length: 128, Optimizer: SGD, Learning rate: 0.001, Dropout: 0.25 
+2023-06-06 01:48:31,803:INFO:ResultsLogger:FineTune - Model: SupCon_mfcc, Task: Task_12. Epoch: 20, Strategy: score, TestScore: 0.80 at epoch 1, ValScore: 1.00, ValAccuracy: 1.00, ValLoss: 20.97, IntraScore: 0.78, InterScore: 0.81 
+202023-06-06 01:48:47,195:INFO:ResultsLogger:FineTune - Model: SupCon_mfcc, Task: Task_12. Epoch: 20, Strategy: accuracy, TestScore: 0.79 at epoch 1, ValScore: 1.00, ValAccuracy: 1.00, ValLoss: 20.97, IntraScore: 0.77, InterScore: 0.81 
+2023-06-06 01:49:03,003:INFO:ResultsLogger:FineTune - Model: SupCon_mfcc, Task: Task_12. Epoch: 20, Strategy: loss, TestScore: 0.80 at epoch 17, ValScore: 1.00, ValAccuracy: 1.00, ValLoss: 0.27, IntraScore: 0.79, InterScore: 0.80 
+2023-06-06 08:51:21,252:INFO:ResultsLogger:Testing - Model: resnet18_mfcc, Task: Task_12, Train Score: 1.00, Valid Score: 0.99, Intra Score: 0.78, Inter Score: 0.81 at resnet18_mfcc64_linear512_hop128_SGD_lr0.001_temp0.1_drop0.25_val0.2/best.pth 
+
+2023-06-06 10:01:22,488:INFO:ResultsLogger:FineTune - Model: SupCon_mfcc, Task: Task_12. Epoch: 20, Strategy: score, TestScore: 0.80 at epoch 20, ValScore: 0.98, ValAccuracy: 0.99, ValLoss: 1.47, IntraScore: 0.80, InterScore: 0.80 
+2023-06-06 10:01:36,810:INFO:ResultsLogger:FineTune - Model: SupCon_mfcc, Task: Task_12. Epoch: 20, Strategy: accuracy, TestScore: 0.81 at epoch 13, ValScore: 0.98, ValAccuracy: 0.99, ValLoss: 1.53, IntraScore: 0.81, InterScore: 0.81 
+2023-06-06 10:01:51,310:INFO:ResultsLogger:FineTune - Model: SupCon_mfcc, Task: Task_12. Epoch: 20, Strategy: loss, TestScore: 0.81 at epoch 19, ValScore: 0.98, ValAccuracy: 0.99, ValLoss: 1.06, IntraScore: 0.80, InterScore: 0.81 
+2023-06-06 10:02:44,747:INFO:ResultsLogger:Testing - Model: resnet18_mfcc, Task: Task_12, Train Score: 0.97, Valid Score: 0.97, Intra Score: 0.81, Inter Score: 0.81 at resnet18_mfcc64_linear512_hop128_SGD_lr0.001_temp0.1_drop0.25_val0.2/ckpt_epoch_50.pth 
+V3 Test
+2023-06-06 10:50:38,705:INFO:ResultsLogger:FineTune - Model: SupCon_mfcc, Task: Task_11. Epoch: 20, Strategy: score, TestScore: 0.98 at epoch 14, ValScore: 0.99, ValAccuracy: 0.99, ValLoss: 2.17, IntraScore: 0.98, InterScore: 0.99 
+2023-06-06 10:50:51,300:INFO:ResultsLogger:FineTune - Model: SupCon_mfcc, Task: Task_11. Epoch: 20, Strategy: accuracy, TestScore: 0.98 at epoch 9, ValScore: 0.99, ValAccuracy: 0.99, ValLoss: 2.07, IntraScore: 0.98, InterScore: 0.99 
+2023-06-06 10:51:03,933:INFO:ResultsLogger:FineTune - Model: SupCon_mfcc, Task: Task_11. Epoch: 20, Strategy: loss, TestScore: 0.98 at epoch 16, ValScore: 0.99, ValAccuracy: 0.99, ValLoss: 1.39, IntraScore: 0.98, InterScore: 0.98 
+2023-06-06 10:51:49,591:INFO:ResultsLogger:Testing - Model: resnet18_mfcc, Task: Task_11, Train Score: 0.98, Valid Score: 0.99, Intra Score: 0.98, Inter Score: 0.98 at resnet18_mfcc64_linear512_hop128_SGD_lr0.001_temp0.1_drop0.25_val0.2/best.pth 
+
+2023-06-06 11:12:10,058:INFO:ResultsLogger:FineTune - Model: SupCon_mfcc, Task: Task_12. Epoch: 20, Strategy: score, TestScore: 0.96 at epoch 19, ValScore: 0.96, ValAccuracy: 0.94, ValLoss: 16.27, IntraScore: 0.96, InterScore: 0.97 
+2023-06-06 11:12:22,482:INFO:ResultsLogger:FineTune - Model: SupCon_mfcc, Task: Task_12. Epoch: 20, Strategy: accuracy, TestScore: 0.96 at epoch 19, ValScore: 0.96, ValAccuracy: 0.94, ValLoss: 16.27, IntraScore: 0.96, InterScore: 0.96 
+2023-06-06 11:12:34,996:INFO:ResultsLogger:FineTune - Model: SupCon_mfcc, Task: Task_12. Epoch: 20, Strategy: loss, TestScore: 0.96 at epoch 5, ValScore: 0.96, ValAccuracy: 0.93, ValLoss: 12.98, IntraScore: 0.96, InterScore: 0.97 
+2023-06-06 11:13:22,313:INFO:ResultsLogger:Testing - Model: resnet18_mfcc, Task: Task_12, Train Score: 0.96, Valid Score: 0.94, Intra Score: 0.96, Inter Score: 0.97 at resnet18_mfcc64_linear512_hop128_SGD_lr0.001_temp0.1_drop0.25_val0.2/best.pth 
+
+2023-06-06 11:29:28,240:INFO:ResultsLogger:FineTune - Model: SupCon_mfcc, Task: Task_21. Epoch: 20, Strategy: score, TestScore: 0.94 at epoch 11, ValScore: 0.96, ValAccuracy: 0.95, ValLoss: 2.55, IntraScore: 0.94, InterScore: 0.95 
+2023-06-06 11:29:40,210:INFO:ResultsLogger:FineTune - Model: SupCon_mfcc, Task: Task_21. Epoch: 20, Strategy: accuracy, TestScore: 0.95 at epoch 19, ValScore: 0.95, ValAccuracy: 0.96, ValLoss: 1.25, IntraScore: 0.95, InterScore: 0.95 
+2023-06-06 11:29:52,600:INFO:ResultsLogger:FineTune - Model: SupCon_mfcc, Task: Task_21. Epoch: 20, Strategy: loss, TestScore: 0.95 at epoch 19, ValScore: 0.95, ValAccuracy: 0.96, ValLoss: 1.25, IntraScore: 0.95, InterScore: 0.95 
+2023-06-06 11:31:40,832:INFO:ResultsLogger:Testing - Model: resnet18_mfcc, Task: Task_21, Train Score: 0.95, Valid Score: 0.95, Intra Score: 0.94, Inter Score: 0.95 at resnet18_mfcc64_linear512_hop128_SGD_lr0.001_temp0.35_drop0.25_val0.2/best.pth 
+
+2023-06-06 11:47:48,150:INFO:ResultsLogger:FineTune - Model: SupCon_mfcc, Task: Task_22. Epoch: 20, Strategy: score, TestScore: 0.90 at epoch 19, ValScore: 0.97, ValAccuracy: 0.93, ValLoss: 3.48, IntraScore: 0.88, InterScore: 0.91 
+2023-06-06 11:48:01,215:INFO:ResultsLogger:FineTune - Model: SupCon_mfcc, Task: Task_22. Epoch: 20, Strategy: accuracy, TestScore: 0.90 at epoch 17, ValScore: 0.97, ValAccuracy: 0.96, ValLoss: 3.93, IntraScore: 0.89, InterScore: 0.91 
+2023-06-06 11:48:14,264:INFO:ResultsLogger:FineTune - Model: SupCon_mfcc, Task: Task_22. Epoch: 20, Strategy: loss, TestScore: 0.90 at epoch 20, ValScore: 0.96, ValAccuracy: 0.92, ValLoss: 2.84, IntraScore: 0.89, InterScore: 0.91 
+2023-06-06 11:49:05,284:INFO:ResultsLogger:Testing - Model: resnet18_mfcc, Task: Task_22, Train Score: 0.92, Valid Score: 0.94, Intra Score: 0.89, Inter Score: 0.91 at resnet18_mfcc64_linear512_hop128_SGD_lr0.001_temp0.35_drop0.25_val0.2/best.pth 
+
