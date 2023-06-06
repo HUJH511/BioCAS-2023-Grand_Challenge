@@ -6,7 +6,7 @@
     "fdim": 64,
     "tdim": 93,
     "feature": "mfcc",
-    "max_length": 3.0,
+    "max_length": 15.0,
     "parameters": [
         {
             "hop_length": 128,
