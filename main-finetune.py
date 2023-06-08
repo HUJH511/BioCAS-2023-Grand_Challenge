@@ -53,17 +53,23 @@ def setupLogger(name, logPath, level=logging.INFO):
 def set_args(opt):
     # set the path according to the environment
     # NEED MANUALLY CONFIG
+    opt.model = "resnet18"
     opt.ckpt = "best.pth"
+    opt.head = 'linear'
+    opt.embedding_size = 128
     task_in = "Task_" + opt.task
     task_path = "./ckpts/PreTrain-Models/{}".format(task_in)
-    model_name = "resnet18_{}{}_linear512_hop{}_SGD_lr0.001_temp0.1_drop0.25_val{}".format(
+    model_name = "{}_{}{}_{}{}_hop{}_SGD_lr0.001_temp0.1_drop0.25_val{}".format(
+        opt.model,
         FEATURE, 
         N_F_BIN, 
+        opt.head,
+        opt.embedding_size,
         HOP_LENGTH,
         opt.val_percent,
     )
-    opt.model_path = os.path.join(task_path, model_name)
-    if not os.path.isdir(opt.model_path):
+    opt.save_folder = os.path.join(task_path, model_name)
+    if not os.path.isdir(opt.save_folder):
         raise Exception("Wrong PreTrain Model")
 
     return opt
@@ -204,7 +210,7 @@ def main(args):
         ### Start of model and task customization >>>>>
         lr = args.learning_rate
         epoch_num = args.epoch
-        model_name = args.model
+        model_name = args.model_type
         PRS_classifier, loss_fn, spike = get_model(args, model_name, num_classes)
         optimizer = optim.Adam(
             filter(lambda p: p.requires_grad, PRS_classifier.parameters()), 
@@ -252,7 +258,7 @@ def main(args):
             epoch, _, _, score, acc, loss = best_dict[item].values()
             valloss = 1 / loss
             log_msg = (
-                f"Training - Model: {model_name}_{FEATURE}, Task: {task_in}. Epoch: {epoch_num}, "
+                f"Finetuning - Model: {model_name}_{FEATURE}, Task: {task_in}. Epoch: {epoch_num}, "
                 f"Strategy: {item}, "
                 f"TestScore: {test_score:>0.2f} at epoch {epoch}, "
                 f"ValScore: {score:>0.2f}, "
@@ -264,16 +270,16 @@ def main(args):
             logger.info(log_msg)
         ### End of evaluation and logging results <<<<<
         if args.save_model:
-            PATH = "ckpts/FineTune-Models/{}_{}.pt".format(model_name, task_in)
+            PATH = "ckpts/FineTune-Models/{}_{}_test.pt".format(model_name, task_in)
             torch.save(best_dict, PATH)
             
     else:
         print("\nTesting...")
-        model_name = args.model
+        model_name = args.model_type
         strategy = args.strategy
 
         PRS_classifier, _, spike = get_model(args, model_name, num_classes)
-        PATH = "ckpts/FineTune-Models/{}_{}.pt".format(model_name, task_in)
+        PATH = "ckpts/FineTune-Models/{}_{}_test.pt".format(model_name, task_in)
         CheckPoint = torch.load(PATH)
         PRS_classifier.load_state_dict(CheckPoint[strategy]["model_state_dict"])
         PRS_classifier.eval()
@@ -300,7 +306,7 @@ def main(args):
         txt = input("Enter Y/N to get final model: ")
         if txt == "Y" or "y":
             FINAL_PATH = os.path.join("models", args.task, "model.pt")
-            torch.save(best_dict["score"], FINAL_PATH)
+            torch.save(CheckPoint["score"], FINAL_PATH)
     return
 
 
@@ -340,7 +346,7 @@ if __name__ == "__main__":
     
     # Model Config
     parser.add_argument(
-        "--model", type=str, default="SupCon", help="Type of the model chosen."
+        "--model_type", type=str, default="SupCon", help="Type of the model chosen."
     )
     parser.add_argument("--save_model", action=argparse.BooleanOptionalAction)
 
