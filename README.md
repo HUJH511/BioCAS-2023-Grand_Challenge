@@ -144,6 +144,7 @@ Authors: Hu Jinhai*, Leow Cong Sheng*, Tao Shuailin\
 This project have been built on some of the useful repositories and tools shown below (in no particular order):
 - Previous year challenge submission - https://github.com/chenzizhao/biocas-challenge-22
 - SupContrast: Supervised Contrastive Learning - https://github.com/HobbitLong/SupContrast
+- Mixup - https://github.com/facebookresearch/mixup-cifar10
 - snnTorch - https://snntorch.readthedocs.io/en/latest/
 - Ray Tune - https://docs.ray.io/en/master/ 
 

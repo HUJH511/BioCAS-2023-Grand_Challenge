@@ -3,8 +3,10 @@ from __future__ import print_function
 import sys
 import time
 import torch
+import numpy as np
 import matplotlib.pyplot as plt
 import snntorch.functional as SF
+from torch.autograd import Variable
 from sklearn.metrics import accuracy_score, classification_report
 
 from src.utils.metric import calc_score
@@ -312,3 +314,150 @@ def valid_model(device, task, dataloader, trained_model, verbose=False, spike=Fa
         print("Accuracy:", accuracy)
         print(classification_report(truth_flat, preds_flat))
     return score, accuracy
+
+
+def mixup_data(x, y, alpha=1.0, use_cuda=True):
+    '''Returns mixed inputs, pairs of targets, and lambda'''
+    if alpha > 0:
+        lam = np.random.beta(alpha, alpha)
+    else:
+        lam = 1
+
+    batch_size = x.size()[0]
+    if use_cuda:
+        index = torch.randperm(batch_size).cuda()
+    else:
+        index = torch.randperm(batch_size)
+
+    mixed_x = lam * x + (1 - lam) * x[index, :]
+    y_a, y_b = y, y[index]
+    return mixed_x, y_a, y_b, lam
+
+
+def mixup_criterion(criterion, pred, y_a, y_b, lam):
+    return lam * criterion(pred, y_a) + (1 - lam) * criterion(pred, y_b)
+
+
+
+def train_mixup(
+    device,
+    task,
+    dataloader,
+    model,
+    criterion,
+    optimizer,
+    spike=False,
+    n_epochs=10,
+    print_every=1,
+    verbose=True,
+    plot_results=True,
+    validation=True,
+    save_ckpt=False,
+    model_name=None,
+    strategy=["score"],
+):
+    best_dict = {}
+    best_result = {}
+    for item in strategy:
+        best_result[item] = 0
+    losses = []
+    start = time.time()
+    print("\nTraining for {} epochs...".format(n_epochs))
+    for epoch in range(n_epochs):
+        if verbose == True and epoch % print_every == 0:
+            print("\n\nEpoch {}/{}:".format(epoch + 1, n_epochs))
+
+        if validation == True:
+            evaluation = ["train", "val"]
+        else:
+            evaluation = ["train"]
+
+        # Each epoch has a training and validation phase
+        for phase in evaluation:
+            total = 0
+            correct = 0
+            if phase == "train":
+                model.train(True)  # Set model to training mode
+            else:
+                model.train(False)  # Set model to evaluate mode
+
+            running_loss = 0.0
+            for data, label, info in dataloader[phase]:
+                data, label, info = data.to(device), label.to(device), info.to(device)
+
+                ## mix-up method
+                data, label_a, label_b, lam = mixup_data(data, label)
+                data, label_a, label_b = map(Variable, (data, label_a, label_b))
+                # forward + backward + optimize
+                x = data
+                outputs = model(x)
+                loss = mixup_criterion(criterion, outputs, label_a, label_b, lam)
+                running_loss += loss.item()
+                _, predicted = torch.max(outputs.data, 1)
+                total += label.size(0)
+                correct += (lam * predicted.eq(label_a.data).cpu().sum().float()
+                    + (1 - lam) * predicted.eq(label_b.data).cpu().sum().float())
+                acc = 1.*correct / total
+
+                # zero the parameter (weight) gradients
+                optimizer.zero_grad()
+
+                # backward + optimize only if in training phase
+                if phase == "train":
+                    loss.backward()
+                    # update the weights
+                    optimizer.step()
+
+                # record loss statistics
+                running_loss += loss.item()
+
+            losses.append(running_loss)
+
+            if verbose == True and epoch % print_every == 0:
+                print(
+                    "{} loss: {:.4f} | acc: {:.4f}|".format(phase, running_loss, acc),
+                    end=" ",
+                )
+
+        val_score, val_acc = valid_model(
+            device=device,
+            task=int(task[-2]),
+            dataloader=dataloader[evaluation[-1]],
+            trained_model=model,
+            verbose=False,
+            spike=spike,
+        )
+
+        val_results = {
+            "score": val_score,
+            "accuracy": val_acc,
+            "loss": 1 / losses[-1],
+        }
+
+        for item in strategy:
+            if val_results[item] > best_result[item]:
+                best_result[item] = val_results[item]
+                best_dict[item] = {
+                    "epoch": epoch + 1,
+                    "model_state_dict": model.state_dict(),
+                    "optimizer_state_dict": optimizer.state_dict(),
+                } | val_results
+
+    if verbose == True:
+        print("\nFinished Training  | Time:{}".format(time.time() - start))
+
+    if plot_results == True:
+        plt.figure(figsize=(10, 10))
+        plt.plot(losses[0::2], label="train_loss")
+        if validation == True:
+            plt.plot(losses[1::2], label="validation_loss")
+        plt.legend()
+        plt.xlabel("Epoch")
+        plt.ylabel("Loss")
+        plt.draw()
+
+    if save_ckpt:
+        PATH = "ckpts/{}_CheckPoint_task{}.pt".format(model_name, task)
+        torch.save(best_dict, PATH)
+
+    return best_dict
