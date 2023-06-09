@@ -53,24 +53,25 @@ def setupLogger(name, logPath, level=logging.INFO):
 def set_args(opt):
     # set the path according to the environment
     # NEED MANUALLY CONFIG
-    opt.model = "resnet18"
-    opt.ckpt = "best.pth"
-    opt.head = 'linear'
-    opt.embedding_size = 128
-    task_in = "Task_" + opt.task
-    task_path = "./ckpts/PreTrain-Models/{}".format(task_in)
-    model_name = "{}_{}{}_{}{}_hop{}_SGD_lr0.001_temp0.1_drop0.25_val{}".format(
-        opt.model,
-        FEATURE, 
-        N_F_BIN, 
-        opt.head,
-        opt.embedding_size,
-        HOP_LENGTH,
-        opt.val_percent,
-    )
-    opt.save_folder = os.path.join(task_path, model_name)
-    if not os.path.isdir(opt.save_folder):
-        raise Exception("Wrong PreTrain Model")
+    if opt.model_type == "SupCon":
+        opt.model = "resnet18"
+        opt.ckpt = "best.pth"
+        opt.head = 'linear'
+        opt.embedding_size = 128
+        task_in = "Task_" + opt.task
+        task_path = "./ckpts/PreTrain-Models/{}".format(task_in)
+        model_name = "{}_{}{}_{}{}_hop{}_SGD_lr0.001_temp0.1_drop0.25_val{}".format(
+            opt.model,
+            FEATURE, 
+            N_F_BIN, 
+            opt.head,
+            opt.embedding_size,
+            HOP_LENGTH,
+            opt.val_percent,
+        )
+        opt.save_folder = os.path.join(task_path, model_name)
+        if not os.path.isdir(opt.save_folder):
+            raise Exception("Wrong PreTrain Model")
 
     return opt
 

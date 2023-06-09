@@ -4,7 +4,7 @@
     "head": "linear",
     "feat_dim": 512,
     "fdim": 64,
-    "tdim": 93,
+    "tdim": 187,
     "feature": "mfcc",
     "max_length": 3.0,
     "parameters": [
