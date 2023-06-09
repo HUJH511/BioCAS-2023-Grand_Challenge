@@ -64,12 +64,13 @@ def set_args(opt):
         if opt.cosine:
             eta_min = opt.learning_rate * (opt.lr_decay_rate ** 3)
             opt.warmup_to = eta_min + (opt.learning_rate - eta_min) * (
-                    1 + math.cos(math.pi * opt.warm_epochs / opt.epochs)) / 2
+                    1 + math.cos(math.pi * opt.warm_epochs / opt.epoch)) / 2
         else:
             opt.warmup_to = opt.learning_rate
 
     # set the path according to the environment
-    opt.model_path = "./ckpts/PreTrain-Models/{}".format(opt.task)
+    task_in = 'Task_' + opt.task
+    opt.model_path = "./ckpts/PreTrain-Models/{}".format(task_in)
     opt.model_name = "{}_{}{}_{}{}_hop{}_{}_lr{}_temp{}_drop{}_val{}".format(
         opt.model, 
         FEATURE, 
@@ -92,7 +93,7 @@ def set_args(opt):
 
 # -------------------- Set_Loader() function definition --------------------#
 def set_loader(opt):
-    task_in = opt.task
+    task_in = 'Task_' + opt.task
     data_path = opt.data_path
 
     data_dict={
@@ -184,11 +185,11 @@ def main(opt):
     optimizer = set_optimizer(opt, model)
 
     print("\n\nTraining...")
-    print("Running for {} epochs...".format(opt.epochs))
+    print("Running for {} epochs...".format(opt.epoch))
     best_loss = 0
     best_epoch = 1
     # training routine
-    for epoch in range(1, opt.epochs + 1):
+    for epoch in range(1, opt.epoch + 1):
         adjust_learning_rate(opt, optimizer, epoch)
 
         # train for one epoch
@@ -211,11 +212,11 @@ def main(opt):
 
     # save the best model
     save_file = os.path.join(opt.save_folder, "best.pth")
-    save_model(best_model, best_optimizer, opt, opt.epochs, save_file)
+    save_model(best_model, best_optimizer, opt, opt.epoch, save_file)
 
     # log results
     log_msg = (
-        f"Training - Model: {opt.model}_{FEATURE}{N_F_BIN}, Task: {opt.task}. Epoch: {opt.epochs}, "
+        f"Training - Model: {opt.model}_{FEATURE}{N_F_BIN}, Task: {opt.task}. Epoch: {opt.epoch}, "
         f"Last train loss: {train_loss:>0.2f}, "
         f"Best valid loss: {1/best_loss:>0.2f} at epoch {best_epoch}, "
         f"Method: {opt.method}. Temperature: {opt.temperature:>0.2f}, "
@@ -236,8 +237,8 @@ if __name__ == "__main__":
     parser.add_argument(
         "--task",
         type=str,
-        default="Task_11",
-        help="Task for script run - Task_11(default).",
+        default="11",
+        help="Task for script run - 11(default).",
     )
     parser.add_argument(
         "--data_path", type=str, default="SPRSound/", help="Directory for data."
@@ -274,7 +275,7 @@ if __name__ == "__main__":
         "--save_freq", type=int, default=50, help="save frequency"
     )
     parser.add_argument(
-        "--epochs", type=int, default=100, help="Epoch number"
+        "--epoch", type=int, default=100, help="Epoch number"
     )
 
     # Optim Config
