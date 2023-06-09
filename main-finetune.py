@@ -271,7 +271,7 @@ def main(args):
             logger.info(log_msg)
         ### End of evaluation and logging results <<<<<
         if args.save_model:
-            PATH = "ckpts/FineTune-Models/{}_{}_test.pt".format(model_name, task_in)
+            PATH = "ckpts/FineTune-Models/{}_{}.pt".format(model_name, task_in)
             torch.save(best_dict, PATH)
             
     else:
@@ -280,7 +280,7 @@ def main(args):
         strategy = args.strategy
 
         PRS_classifier, _, spike = get_model(args, model_name, num_classes)
-        PATH = "ckpts/FineTune-Models/{}_{}_test.pt".format(model_name, task_in)
+        PATH = "ckpts/FineTune-Models/{}_{}.pt".format(model_name, task_in)
         CheckPoint = torch.load(PATH)
         PRS_classifier.load_state_dict(CheckPoint[strategy]["model_state_dict"])
         PRS_classifier.eval()
