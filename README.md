@@ -121,10 +121,10 @@ The overall architecture is illustrated in the schematic diagram shown below.\
 <img src="images/schematic_diagram.png" width="whatever" height="whatever"> 
 
 ## Results
-- The T-SEN plots after pretraining are shown below.\
+- The T-SEN plots after pretraining are shown below.
 <img src="images/t-sen.png" width="538" height="760">
 
-- The confusion matrixs to obatin best test scores are shown below.\
+- The confusion matrixs to obatin best test scores are shown below.
 <img src="images/confusion_matrix.png" width="628" height="580"> 
 
 ## License
