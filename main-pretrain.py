@@ -275,7 +275,7 @@ if __name__ == "__main__":
         "--save_freq", type=int, default=50, help="save frequency"
     )
     parser.add_argument(
-        "--epoch", type=int, default=100, help="Epoch number"
+        "--epoch", type=int, default=50, help="Epoch number"
     )
 
     # Optim Config
