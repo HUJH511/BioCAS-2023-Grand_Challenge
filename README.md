@@ -82,13 +82,18 @@ Details on the dataset and challenge can be found at the [BioCAS 2023 Grand Chal
 ## Customization
 ### Basic - Training or modification
 To retrain or modify the models, users can use the the following example commands:\
-For supervised contrastive-learning:
+1. If Supervised Contrastive (SupCon) Pretrain + Finetune is used, both `main-pretrain.py` and `main-finetune.py` are required to run.\
+For SupCon pretraining: run following command and the pretrained model will be saved under `ckpts/PreTrain-Models/Task_(task_level)`
 ```
-python supCon.py --mode=train --task_in=Task_11
+python main-pretrain.py --mode=train --task=11 --model=resnet18
 ```
-For other models such as convolutional neural network, ResNet, or AST:
+For finetuning: run following command and the fintuned model will be saved under `ckpts/FineTune-Models`
 ```
-python sample_main.py --task=Task_11 --epoch=20 --model_name=ResNet --save_model
+python main-finetune.py --mode=train --task=11 --model_type=SupCon --save_model
+```
+2. If use other models such as CNN, ResNet, or SNN without pretraining:
+```
+python main-finetune.py --mode=train --task=11 --model_type=ResNet --epoch=100 --save_model
 ```
 TODO: \
 Models and their states will be stored in `\temp\` folder. To use them for main, users will have to move the checkpoints to the respective folders (based on tasks) under `\models\` and rename as `model.pt`. Users will have to ensure that the models trained is aligned to the `config.json` within the `\models\` sub-directories, and can be modified accordingly.

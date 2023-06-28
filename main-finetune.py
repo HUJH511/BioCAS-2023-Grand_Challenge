@@ -307,7 +307,7 @@ def main(args):
         txt = input("Enter Y/N to get final model: ")
         if txt == "Y" or "y":
             FINAL_PATH = os.path.join("models", args.task, "model.pt")
-            torch.save(CheckPoint["score"], FINAL_PATH)
+            torch.save(CheckPoint[strategy], FINAL_PATH)
     return
 
 
