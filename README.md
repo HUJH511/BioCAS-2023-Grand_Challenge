@@ -16,15 +16,6 @@ This repository contains code for respiratory sound classification in BioCAS 202
 ```
 ./BioCAS2023/
 |
-├───ckpts
-│   ├───PreTrain-Models
-│   └───FineTune-Models
-├───logs
-├───models
-│   ├───11
-│   ├───12
-│   ├───21
-│   └───22
 ├───SPRSound
 │   ├───example
 │   ├───test_json
@@ -33,6 +24,16 @@ This repository contains code for respiratory sound classification in BioCAS 202
 │   ├───test_wav
 │   ├───train_json
 │   └───train_wav
+├───ckpts
+│   ├───PreTrain-Models
+│   └───FineTune-Models
+├───images
+├───logs
+├───models
+│   ├───11
+│   ├───12
+│   ├───21
+│   └───22
 ├───src
 │   ├───data
 │   ├───models
@@ -40,16 +41,16 @@ This repository contains code for respiratory sound classification in BioCAS 202
 │   ├───train.py
 │   └───test.py
 ├───.gitignore
+├───LICENSE
+├───README.md
+├───Submission Documentation.pdf
 ├───backtest.ipynb
 ├───BioCAS-Notes.ipynb
 ├───environment.yml
-├───LICENSE
 ├───main-finetune.py
 ├───main-pretrain.py
 ├───main.py
-├───README.md
 ├───requirements.txt
-├───Submission Documentation.pdf
 ├───tuning-hyperparameter.py
 ├───tuning-preprocessing.py
 └───tuning-supcon.ipynb
