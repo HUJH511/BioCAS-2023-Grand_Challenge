@@ -81,27 +81,32 @@ Details on the dataset and challenge can be found at the [BioCAS 2023 Grand Chal
 
 ## Customization
 ### Basic - Training or modification
-To retrain or modify the models, users can use the the following example commands:\
-1. If Supervised Contrastive (SupCon) Pretrain + Finetune is used, both `main-pretrain.py` and `main-finetune.py` are required to run.\
-For SupCon pretraining: run following command and the pretrained model will be saved under `ckpts/PreTrain-Models/Task_(task_level)`
-```
-python main-pretrain.py --mode=train --task=11 --model=resnet18
-```
-For finetuning: run following command and the fintuned model will be saved under `ckpts/FineTune-Models`
-```
-python main-finetune.py --mode=train --task=11 --model_type=SupCon --save_model
-```
-2. If use other models such as CNN, ResNet, or SNN without pretraining:
-```
-python main-finetune.py --mode=train --task=11 --model_type=ResNet --epoch=100 --save_model
-```
-TODO: \
-Models and their states will be stored in `\temp\` folder. To use them for main, users will have to move the checkpoints to the respective folders (based on tasks) under `\models\` and rename as `model.pt`. Users will have to ensure that the models trained is aligned to the `config.json` within the `\models\` sub-directories, and can be modified accordingly.
+To retrain or modify the models, users can use the the following example commands:
+- If Supervised Contrastive (SupCon) Pretrain + Finetune is used, both `main-pretrain.py` and `main-finetune.py` are required to run. 
 
+    For SupCon pretraining: run following command and the pretrained model will be saved under `ckpts/PreTrain-Models/Task_(task_level)` 
+    ```
+    python main-pretrain.py --task=11 --model=resnet18
+    ```
+    For MixUp finetuning: run following command and the fintuned model will be saved under `ckpts/FineTune-Models`
+    ```
+    python main-finetune.py --mode=train --task=11 --model_type=SupCon --save_model
+    ```
+- If use other models such as CNN, ResNet, or SNN without pretraining:
+    ```
+    python main-finetune.py --mode=train --task=11 --model_type=ResNet --epoch=100 --save_model
+    ```
+To test and view results of finetuned model: 
+```
+python main-finetune.py --mode=test --task=11
+```
+Save finetuned model into `\models\task_level` by key in 'Y' or 'y' in the prompt. The model will be renamed as `model.pt`.
 
-The models and preprocessing can be edited accordingly in their source code both at `sample_main.py` and `supCon.py` respectively. The commands and configuration are currently contained within the code with their comments. To directly access the source code for the preprocessing and models, do refer to the `\src\` directory.
+Users will have to ensure that the models trained is aligned to the `config.json` within the `\models\` sub-directories, and can be modified accordingly.
 
-#### Pofiling script using simple memory profiler
+The models and preprocessing can be edited accordingly in their source code both at `main-pretrain.py` and `main-finetune.py` respectively. The commands and configuration are currently contained within the code with their comments. To directly access the source code for the preprocessing and models, do refer to the `\src\` directory.
+
+### Pofiling script using simple memory profiler
 1. Install memory-profiler from conda using `conda install -c conda-forge memory_profiler` (see https://pypi.org/project/memory-profiler/).
 2. Run on terminal `mprof run main.py -ARGUMENTSandETC`.
 3. Run `mprof plot` to plot the memory used with time.
@@ -111,7 +116,10 @@ Model hyperparameters can be tuned using `python tuning-hyperparameter.py` with 
 Similarly, preprocessing parameters can be tuned using `python tuning-preprocessing.py`.
 
 ## Architecture
-TODO
+The overall architecture is illustrated in the schematic diagram shown below.\
+<img src="images/schematic%20diagram.png" width="whatever" height="whatever"> \
+The T-SEN plot after pretraining is shown below. \
+<img src="images/t-sen.png" width="whatever" height="whatever">
 
 ## License
 This project is licensed under the MIT License. See LICENSE for more details.
