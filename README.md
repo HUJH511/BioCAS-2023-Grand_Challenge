@@ -119,7 +119,7 @@ Similarly, preprocessing parameters can be tuned using `python tuning-preprocess
 The overall architecture is illustrated in the schematic diagram shown below.\
 <img src="images/schematic%20diagram.png" width="whatever" height="whatever"> 
 
-The T-SEN plot after pretraining is shown below. \
+The T-SEN plots after pretraining are shown below. \
 <img src="images/t-sen.png" width="538" height="760">
 
 ## License
