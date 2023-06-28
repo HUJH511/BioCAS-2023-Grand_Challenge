@@ -52,22 +52,20 @@ def setupLogger(name, logPath, level=logging.INFO):
 # -------------------- Set_Args() functions --------------------# 
 def set_args(opt):
     # set the path according to the environment
-    # NEED MANUALLY CONFIG
     if opt.model_type == "SupCon":
-        opt.model = "resnet18"
-        opt.ckpt = "best.pth"
-        opt.head = 'linear'
-        opt.embedding_size = 128
         task_in = "Task_" + opt.task
         task_path = "./ckpts/PreTrain-Models/{}".format(task_in)
-        model_name = "{}_{}{}_{}{}_hop{}_SGD_lr0.001_temp0.1_drop0.25_val{}".format(
+        model_name = "{}_{}{}_{}{}_hop{}_SGD_lr{}_temp{}_drop{}_val{}".format(
             opt.model,
             FEATURE, 
             N_F_BIN, 
             opt.head,
             opt.embedding_size,
             HOP_LENGTH,
-            opt.val_percent,
+            opt.supcon_lr,
+            opt.supcon_temp,
+            opt.supcon_drop,
+            opt.supcon_val_percent,
         )
         opt.save_folder = os.path.join(task_path, model_name)
         if not os.path.isdir(opt.save_folder):
@@ -280,7 +278,7 @@ def main(args):
         strategy = args.strategy
 
         PRS_classifier, _, spike = get_model(args, model_name, num_classes)
-        PATH = "ckpts/FineTune-Models/{}_{}.pt".format(model_name, task_in)
+        PATH = "ckpts/FineTune-Models/{}_{}_1.pt".format(model_name, task_in)
         CheckPoint = torch.load(PATH)
         PRS_classifier.load_state_dict(CheckPoint[strategy]["model_state_dict"])
         PRS_classifier.eval()
@@ -308,6 +306,7 @@ def main(args):
         if txt == "Y" or "y":
             FINAL_PATH = os.path.join("models", args.task, "model.pt")
             torch.save(CheckPoint[strategy], FINAL_PATH)
+            print('model.pt is saved under models/{}'.format(args.task))
     return
 
 
@@ -350,6 +349,35 @@ if __name__ == "__main__":
         "--model_type", type=str, default="SupCon", help="Type of the model chosen."
     )
     parser.add_argument("--save_model", action=argparse.BooleanOptionalAction)
+
+    # SupCon Config -- if model_type="SupCon"
+    parser.add_argument(
+        "--model", type=str, default="resnet18", help="Type of the pretrain model."
+    )
+    parser.add_argument(
+        "--ckpt", type=str, default="best.pth", help="Checkpoint of pretrain model."
+    )
+    parser.add_argument(
+        "--head", type=str, default="linear", help="Type of head in pretrain model."
+    )
+    parser.add_argument(
+        "--embedding_size", type=int, default=512, help="Embedding size of head."
+    )
+    parser.add_argument(
+        "--supcon_lr", type=float, default=0.001, help="Learning rate of SupCon."
+    )
+    parser.add_argument(
+        "--supcon_temp", type=float, default=0.1, help="Temperature of SupCon."
+    )
+    parser.add_argument(
+        "--supcon_drop", type=float, default=0.25, help="Dropout of SupCon."
+    )
+    parser.add_argument(
+        "--supcon_val_percent", 
+        type=float, 
+        default=0.2, 
+        help="Fraction of dataset for validation (0-1) in SupCon."
+    )
 
     # Train Config
     parser.add_argument(
