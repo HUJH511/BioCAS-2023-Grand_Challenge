@@ -13,7 +13,7 @@ import src.models as mdl
 import src.data.dataset as ds
 import src.data.dataloader as dl
 
-from src.train import train_model
+from src.train import train_model, train_mixup
 from src.test import test_model
 
 
@@ -216,7 +216,8 @@ def main(args):
             lr=lr, 
             weight_decay=1e-4
         )
-        best_dict = train_model(
+        # Change train_mixup to train_model if not use mixup to do finetuning
+        best_dict = train_mixup(
             device=DEVICE,
             task=task_in,
             dataloader=dataloader,
@@ -278,7 +279,7 @@ def main(args):
         strategy = args.strategy
 
         PRS_classifier, _, spike = get_model(args, model_name, num_classes)
-        PATH = "ckpts/FineTune-Models/{}_{}_1.pt".format(model_name, task_in)
+        PATH = "ckpts/FineTune-Models/{}_{}.pt".format(model_name, task_in)
         CheckPoint = torch.load(PATH)
         PRS_classifier.load_state_dict(CheckPoint[strategy]["model_state_dict"])
         PRS_classifier.eval()
@@ -302,7 +303,7 @@ def main(args):
             spike=spike,
         )
         
-        txt = input("Enter Y/N to get final model: ")
+        txt = input("Enter Y/N to save final model: ")
         if txt == "Y" or "y":
             FINAL_PATH = os.path.join("models", args.task, "model.pt")
             torch.save(CheckPoint[strategy], FINAL_PATH)
