@@ -57,7 +57,7 @@ This repository contains code for respiratory sound classification in BioCAS 202
 ##  Execution
 This section will bring you across in running the code for deployment. 
 ### Set up the environment
-Step 1 - Following the structure as shown above, download the dataset into the current directory after cloning this repository. The data can be found at https://github.com/SJTU-YONGFU-RESEARCH-GRP/SPRSound.\
+Step 1 - Following the structure as shown above, download the dataset into the current directory after cloning this repository. The data can be found at https://github.com/SJTU-YONGFU-RESEARCH-GRP/SPRSound. \
 Step 2 - To install all the dependencies, it is recommended to create a new environment first. The `requirements.txt` is available in this directory for manual installation. 
 ```
 pip install -r requirements.txt
