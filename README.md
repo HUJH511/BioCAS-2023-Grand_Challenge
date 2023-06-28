@@ -86,11 +86,11 @@ Details on the dataset and challenge can be found at the [BioCAS 2023 Grand Chal
 To retrain or modify the models, users can use the the following example commands:
 - If Supervised Contrastive (SupCon) Pretrain + Finetune is used, both `main-pretrain.py` and `main-finetune.py` are required to run. 
 
-    For SupCon pretraining: run following command and the pretrained model will be saved under `ckpts/PreTrain-Models/Task_(task_level)` 
+    **For SupCon pretraining:** run following command and the pretrained model will be saved under `ckpts/PreTrain-Models/Task_(task_level)` 
     ```
     python main-pretrain.py --task=11 --model=resnet18
     ```
-    For MixUp finetuning: run following command and the fintuned model will be saved under `ckpts/FineTune-Models`
+    **For MixUp finetuning:** run following command and the fintuned model will be saved under `ckpts/FineTune-Models`
     ```
     python main-finetune.py --mode=train --task=11 --model_type=SupCon --save_model
     ```
