@@ -8,9 +8,9 @@ This repository contains code for respiratory sound classification in BioCAS 202
 3. [Customization](#customization)
 4. [Architecture](#architecture)
 5. [Results](#results)
-6. [Updates](#updates)
-7. [License](#license)
-8. [Acknowledgement](#acknowledgement)
+<!-- 6. [Updates](#updates) -->
+6. [License](#license)
+7. [Acknowledgement](#acknowledgement)
 
 ##  Structure
 ```
@@ -131,7 +131,7 @@ The overall architecture is illustrated in the schematic diagram shown below.\
 ## License
 This project is licensed under the MIT License. See LICENSE for more details.
 
-## Updates
+<!-- ## Updates
 - [x] Score evaluation (in test.py) - Score and verbosity control aligned to assessment criteria (JHU)
 - [x] Enlarge dataset (Add noise...) (JHU)
 - [x] Experiment with different features - MFCC, CWT, tempogram (CLEOW)
@@ -146,7 +146,7 @@ This project is licensed under the MIT License. See LICENSE for more details.
 - [x] Train, test and save model checkpoints for pipeline design (CLEOW)
 - [x] Supervised contrastive pre-training (JHU)
 - [x] Prepare full pipeline for submission (CLEOW, JHU)
-- [ ] Experiment with ensemble/meta-learning approaches - e.g. locations (JHU, Shuailin)
+- [ ] Experiment with ensemble/meta-learning approaches - e.g. locations (JHU, Shuailin) -->
 
 ## Acknowledgement
 Authors: Hu Jinhai*, Leow Cong Sheng*, Tao Shuailin\
