@@ -7,8 +7,7 @@ This repository contains code for respiratory sound classification in BioCAS 202
 2. [Execution](#execution)
 3. [Customization](#customization)
 4. [Architecture](#architecture)
-5. [Results](#results)
-<!-- 6. [Updates](#updates) -->
+5. [Results](#results)                  <!-- 6. [Updates](#updates) -->
 6. [License](#license)
 7. [Acknowledgement](#acknowledgement)
 
