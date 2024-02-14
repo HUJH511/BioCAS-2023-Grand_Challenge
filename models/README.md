@@ -1,5 +1,5 @@
 # configs and models of all tasks for submission
-model.pt files are ignored when pused to github repo.
+model.pt files are ignored when pushed to github repo.
 ```
 ./BioCAS-2023-Grand_Challenge/models/
 |

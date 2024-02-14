@@ -253,7 +253,7 @@ if __name__ == "__main__":
     main_task = int(TASK_IN[-2])
     sub_task = int(TASK_IN[-1])
     formatter = logging.Formatter("%(asctime)s:%(levelname)s:%(name)s:%(message)s")
-    log_path = "logs/hyperTune.logs"
+    log_path = "logs/HyperTune.log"
     data_path = "SPRSound"
     if not os.path.exists(log_path):
         open(log_path, "a").close()

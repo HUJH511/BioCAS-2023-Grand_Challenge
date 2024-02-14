@@ -1,5 +1,7 @@
 # ---------- User-specified files to ignore ---------- 
 # Edit the following if necessary
+logs/*
+!logs/README.md
 models/*
 !models/11
 !models/12

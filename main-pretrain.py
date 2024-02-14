@@ -246,7 +246,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--log_path",
         type=str,
-        default="logs/pretrain.logs",
+        default="logs/Pretrain.log",
         help="Path of file to save logs.",
     )
     parser.add_argument(

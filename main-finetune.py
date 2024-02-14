@@ -332,7 +332,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--log_path",
         type=str,
-        default="logs/finetune.logs",
+        default="logs/Finetune.log",
         help="Path of file to save logs.",
     )
     parser.add_argument(

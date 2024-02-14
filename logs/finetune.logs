@@ -1,1 +1,0 @@
-2023-06-28 14:12:02,947:INFO:ResultsLogger:Finetuning - Model: SupCon_mfcc, Task: Task_11. Epoch: 2, Strategy: score, TestScore: 0.81 at epoch 2, ValScore: 0.83, ValAccuracy: 0.83, ValLoss: 20.94, IntraScore: 0.81, InterScore: 0.81 
