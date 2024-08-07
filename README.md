@@ -10,6 +10,7 @@ This repository contains code for respiratory sound classification in BioCAS 202
 5. [Results](#results)                  <!-- 6. [Updates](#updates) -->
 6. [License](#license)
 7. [Acknowledgement](#acknowledgement)
+8. [Citation](#citation)
 
 ##  Structure
 ```
@@ -156,5 +157,7 @@ This project have been built on some of the useful repositories and tools shown 
 - snnTorch - https://snntorch.readthedocs.io/en/latest/
 - Ray Tune - https://docs.ray.io/en/master/ 
 
-
 *These two authors contributed equally to this work
+
+## Citation
+J. Hu, C. S. Leow, S. Tao, W. L. Goh and Y. Gao, "Supervised contrastive pretrained ResNet with MixUp to enhance respiratory sound classification on imbalanced and limited dataset," 2023 IEEE Biomedical Circuits and Systems Conference (BioCAS), Toronto, ON, Canada, 2023, pp. 1-5, doi: 10.1109/BioCAS58349.2023.10389029.
